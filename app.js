@@ -1,4 +1,4 @@
-import ProductManager from './ProductManager.js'
+import ProductManager from './src/ProductManager.js'
 import express from 'express'
 
 const getAllProductsController = async (req, resp) => {
@@ -30,8 +30,8 @@ const getProductByIdController = async (req, resp) => {
 
 const app = express()
 
-app.get('/products', getAllProductsController)
-app.get('/products/:pid', getProductByIdController)
+app.get('/api/products', getAllProductsController)
+app.get('/api/products/:pid', getProductByIdController)
 
 const puerto = 9090
 app.listen(puerto, () => {
