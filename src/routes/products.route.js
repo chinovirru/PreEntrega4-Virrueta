@@ -1,6 +1,5 @@
 import { Router } from 'express'
-import ProductManager from '../ProductManager.js';
-
+import ProductManager from '../managers/ProductManager.js'
 const router = Router();
 
 router.get('/', async(req, res) => {
@@ -22,33 +21,37 @@ router.get('/:pid', async(req, res) => {
     }
 
     const productManager = new ProductManager('./src/data/products.json')
-    const product = await productManager.getProductById(id)
+    try {
+        const product = await productManager.getProductById(id)
+        return res.json(product)
+    } catch (error) {
+        return res.status(404).json({"Error": error.message})        
+    }
 
-    return res.json(product)
 })
 
 router.post('/', async(req, res)=> {
-    if (!req.body.title) {
-        return res.json({'Error': 'Falta el atributo title'})
-    }
-    if (!req.body.description) {
-        return res.json({'Error': 'Falta el atributo description'})
-    }
-    if (!req.body.code) {
-        return res.json({'Error': 'Falta el atributo code'})
-    }
-    if (!req.body.price) {
-        return res.json({'Error': 'Falta el atributo price'})
-    }
-    if (!req.body.status || req.body.status !== true) {
-        return res.json({'Error': 'Falta el atributo status o tiene que ser TRUE'})
-    }
-    if (!req.body.stock) {
-        return res.json({'Error': 'Falta el atributo stock'})
-    }
-    if (!req.body.category) {
-        return res.json({'Error': 'Falta el atributo category'})
-    }
+    // if (!req.body.title) {
+    //     return res.json({'Error': 'Falta el atributo title'})
+    // }
+    // if (!req.body.description) {
+    //     return res.json({'Error': 'Falta el atributo description'})
+    // }
+    // if (!req.body.code) {
+    //     return res.json({'Error': 'Falta el atributo code'})
+    // }
+    // if (!req.body.price) {
+    //     return res.json({'Error': 'Falta el atributo price'})
+    // }
+    // if (!req.body.status || req.body.status !== true) {
+    //     return res.json({'Error': 'Falta el atributo status o tiene que ser TRUE'})
+    // }
+    // if (!req.body.stock) {
+    //     return res.json({'Error': 'Falta el atributo stock'})
+    // }
+    // if (!req.body.category) {
+    //     return res.json({'Error': 'Falta el atributo category'})
+    // }
 
     const productManager = new ProductManager('./src/data/products.json')
     try {
@@ -61,7 +64,8 @@ router.post('/', async(req, res)=> {
             req.body.stock,
             req.body.category,
             req.body.thumbnail)
-        
+
+        await writeFile(this.path, JSON.stringify(products))
         return res.status(201).json(product)
     
     } catch (error) {
@@ -76,8 +80,8 @@ router.put('/:pid', async(req, res) => {
     }
     const productManager = new ProductManager('./src/data/products.json')
     try {
-        const updatedProduct = productManager.updateProduct(
-            req.params.pid,
+        const updatedProduct = await productManager.updateProduct(
+            id,
             req.body.title,
             req.body.description,
             req.body.code,

@@ -1,5 +1,6 @@
 import {access, readFile, writeFile} from 'fs/promises'
-import Product from './Product.js'
+import Product from '../entities/Product.js'
+import { generateId } from '../utils/utils.js'
 
 class ProductManager {
     path
@@ -24,7 +25,7 @@ class ProductManager {
         if (searchProduct) {
             throw new Error("El Producto ingresado ya existe en el listado")
         } else {
-            const product = new Product(this.generateId(products), title, description, code, price, status, stock, category, thumbnail)
+            const product = new Product(generateId(products), title, description, code, price, status, stock, category, thumbnail)
             products.push(product)
             await writeFile(this.path, JSON.stringify(products))
             
@@ -47,18 +48,18 @@ class ProductManager {
         if (item) {
             return item
         } else {
-            return "not found"
+            throw new Error('No existe producto con el id ingresado')
         }
     }
 
-    generateId(list) {
-        if (list.length === 0) {
-            return 1
-        }
+    // generateId(list) {
+    //     if (list.length === 0) {
+    //         return 1
+    //     }
 
-        let id = Math.max(...list.map(item => item.id))
-        return id+1
-    }
+    //     let id = Math.max(...list.map(item => item.id))
+    //     return id+1
+    // }
 
     async updateProduct(id, title, description, code, price, status, stock, category, thumbnail) {
         const products = JSON.parse(await readFile(this.path, 'utf-8'))
