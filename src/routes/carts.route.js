@@ -23,7 +23,7 @@ router.get('/:cid', async(req, res) => {
         const cart = await cartManager.getCartById(id)
         return res.status(200).json(cart)        
     } catch (error) {
-        return res.status(404).json({"Error":error.message})
+        return res.status(404).json({"Error": error.message})
     }
 
 })
