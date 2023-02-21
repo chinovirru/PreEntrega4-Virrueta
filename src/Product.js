@@ -2,19 +2,23 @@ class Product {
     id
     title
     description
-    price
-    thumbnail
     code
+    price
+    status
     stock
+    category
+    thumbnail
 
-    constructor(id, title, description, price, thumbnail, code, stock) {
+    constructor(id, title, description, code, price, status, stock, category, thumbnail=[]) {
         this.id = id
         this.title = title
         this.description = description
-        this.price = price
-        this.thumbnail = thumbnail
         this.code = code
+        this.price = price
+        this.status = status
         this.stock = stock
+        this.category = category
+        this.thumbnail = thumbnail
     }
 }
 

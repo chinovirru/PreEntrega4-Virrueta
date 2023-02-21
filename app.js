@@ -1,5 +1,7 @@
 import ProductManager from './src/ProductManager.js'
 import express from 'express'
+import productsRoutes from './src/routes/products.route.js'
+import cartsRoutes from './src/routes/carts.route.js'
 
 const getAllProductsController = async (req, resp) => {
     const productManager = new ProductManager('./productosInformatica.json')
@@ -30,8 +32,10 @@ const getProductByIdController = async (req, resp) => {
 
 const app = express()
 
-app.get('/api/products', getAllProductsController)
-app.get('/api/products/:pid', getProductByIdController)
+app.use(express.json())
+
+app.use('/api/products', productsRoutes)
+app.use('/api/carts', cartsRoutes)
 
 const puerto = 9090
 app.listen(puerto, () => {
