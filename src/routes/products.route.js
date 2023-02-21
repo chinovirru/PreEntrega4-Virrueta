@@ -31,28 +31,6 @@ router.get('/:pid', async(req, res) => {
 })
 
 router.post('/', async(req, res)=> {
-    // if (!req.body.title) {
-    //     return res.json({'Error': 'Falta el atributo title'})
-    // }
-    // if (!req.body.description) {
-    //     return res.json({'Error': 'Falta el atributo description'})
-    // }
-    // if (!req.body.code) {
-    //     return res.json({'Error': 'Falta el atributo code'})
-    // }
-    // if (!req.body.price) {
-    //     return res.json({'Error': 'Falta el atributo price'})
-    // }
-    // if (!req.body.status || req.body.status !== true) {
-    //     return res.json({'Error': 'Falta el atributo status o tiene que ser TRUE'})
-    // }
-    // if (!req.body.stock) {
-    //     return res.json({'Error': 'Falta el atributo stock'})
-    // }
-    // if (!req.body.category) {
-    //     return res.json({'Error': 'Falta el atributo category'})
-    // }
-
     const productManager = new ProductManager('./src/data/products.json')
     try {
         const product = await productManager.addProduct(
